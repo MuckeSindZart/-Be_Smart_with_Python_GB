@@ -6,12 +6,15 @@ from bs4 import BeautifulSoup
 
 bot = telebot.TeleBot(TOKEN)
 
+
+
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
 	bot.send_message(message.chat.id, f"Бот который качает видео с YoTube."
     +" \nДля скачивания скопируйте в сообщении ссылку на видео..."
     +" \nCсылка для примера ..."
-    +f"\nhttps://www.youtube.com/watch?v=dQw4w9WgXcQ&feature=share&utm_source=EJGixIgBCJiu2KjB4oSJEQ", disable_web_page_preview = True)
+    +f"\nhttps://www.youtube.com/watch?v=dQw4w9WgXcQ", disable_web_page_preview = True)
+
 
 
 @bot.message_handler(func=lambda message: True)
@@ -32,8 +35,10 @@ def youtube_dwlder(message):
     bot.send_video(message.chat.id, video_msg)
     bot.send_message(message.chat.id, meta_data)
     
-    msg = bot.send_message(message.chat.id, "Качаем еще? Ссылку...")
+    msg = bot.send_message(message.chat.id, "Качаем еще? Жду Ссылку...")
     bot.register_next_step_handler(msg, youtube_dwlder)
+
+
 
 def get_wath_meta_data(url):
     page = requests.get(url)
@@ -44,9 +49,6 @@ def get_wath_meta_data(url):
 
     meta_data= f'У видео {interaction_count}, опубликовано {date_published}'
     return(meta_data)
-
-
-
 
 
 bot.infinity_polling()
